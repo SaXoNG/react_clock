@@ -35,11 +35,6 @@ export class App extends React.Component<{}, State> {
   };
 
   handleDate = () => {
-    if (this.state.hasClock) {
-      // eslint-disable-next-line no-console
-      console.log(new Date());
-    }
-
     this.setState({ today: new Date() });
   };
 
@@ -48,11 +43,20 @@ export class App extends React.Component<{}, State> {
   };
 
   componentDidMount() {
-    document.addEventListener('contextmenu', this.handleHide);
-    document.addEventListener('click', this.handleShow);
+    window.addEventListener('contextmenu', this.handleHide);
+    window.addEventListener('click', this.handleShow);
 
     window.setInterval(this.handleDate, 1000);
     window.setInterval(this.handleClockId, 3300);
+  }
+
+  componentDidUpdate(prevState: Readonly<State>): void {
+    if (prevState.clockName !== this.state.clockName) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `Clock name changed from ${prevState.clockName} to ${this.state.clockName}`,
+      );
+    }
   }
 
   componentWillUnmount() {
