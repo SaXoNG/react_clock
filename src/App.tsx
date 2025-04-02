@@ -8,14 +8,14 @@ function getRandomName(): string {
 }
 
 type State = {
-  showElement: boolean;
+  hasClock: boolean;
   today: Date;
   clockName: string;
 };
 
 export class App extends React.Component<{}, State> {
   state = {
-    showElement: true,
+    hasClock: true,
     today: new Date(),
     clockName: 'Clock-0',
   };
@@ -24,27 +24,35 @@ export class App extends React.Component<{}, State> {
     e.preventDefault();
 
     this.setState({
-      showElement: false,
+      hasClock: false,
     });
   };
 
   handleShow = () => {
     this.setState({
-      showElement: true,
+      hasClock: true,
     });
+  };
+
+  handleDate = () => {
+    if (this.state.hasClock) {
+      // eslint-disable-next-line no-console
+      console.log(new Date());
+    }
+
+    this.setState({ today: new Date() });
+  };
+
+  handleClockId = () => {
+    this.setState({ clockName: getRandomName() });
   };
 
   componentDidMount() {
     document.addEventListener('contextmenu', this.handleHide);
     document.addEventListener('click', this.handleShow);
 
-    window.setInterval(() => {
-      this.setState({ today: new Date() });
-    }, 1000);
-
-    window.setInterval(() => {
-      this.setState({ clockName: getRandomName() });
-    }, 3300);
+    window.setInterval(this.handleDate, 1000);
+    window.setInterval(this.handleClockId, 3300);
   }
 
   componentWillUnmount() {
@@ -53,13 +61,13 @@ export class App extends React.Component<{}, State> {
   }
 
   render() {
-    const { showElement, today, clockName } = this.state;
+    const { hasClock, today, clockName } = this.state;
 
     return (
       <div className="App">
         <h1>React clock</h1>
 
-        {showElement && (
+        {hasClock && (
           <div className="Clock">
             <strong className="Clock__name">{clockName}</strong>
 
