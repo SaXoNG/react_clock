@@ -56,15 +56,16 @@ export class App extends React.Component<{}, State> {
   }
 
   componentDidUpdate(prevState: Readonly<State>): void {
-    if (prevState.clockName !== this.state.clockName) {
+    if (prevState.clockName !== this.state.clockName && this.state.hasClock) {
       // eslint-disable-next-line no-console
-      console.log(
-        `Clock name changed from ${prevState.clockName} to ${this.state.clockName}`,
-      );
+      console.log(this.state.today);
     }
   }
 
   componentWillUnmount() {
+    document.removeEventListener('contextmenu', this.handleHide);
+    document.removeEventListener('click', this.handleShow);
+
     if (this.timerIdDate) {
       clearInterval(this.timerIdDate);
     }
@@ -72,9 +73,6 @@ export class App extends React.Component<{}, State> {
     if (this.timerIdClock) {
       clearInterval(this.timerIdClock);
     }
-
-    document.removeEventListener('contextmenu', this.handleHide);
-    document.removeEventListener('click', this.handleShow);
   }
 
   render() {
