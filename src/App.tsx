@@ -15,6 +15,10 @@ type State = {
 };
 
 export class App extends React.Component<{}, State> {
+  private timerIdDate: number | undefined;
+
+  private timerIdClock: number | undefined;
+
   state = {
     hasClock: true,
     today: new Date(),
@@ -47,8 +51,8 @@ export class App extends React.Component<{}, State> {
     window.addEventListener('contextmenu', this.handleHide);
     window.addEventListener('click', this.handleShow);
 
-    window.setInterval(this.handleDate, 1000);
-    window.setInterval(this.handleClockId, 3300);
+    this.timerIdDate = window.setInterval(this.handleDate, 1000);
+    this.timerIdClock = window.setInterval(this.handleClockId, 3300);
   }
 
   componentDidUpdate(prevState: Readonly<State>): void {
@@ -61,6 +65,14 @@ export class App extends React.Component<{}, State> {
   }
 
   componentWillUnmount() {
+    if (this.timerIdDate) {
+      clearInterval(this.timerIdDate);
+    }
+
+    if (this.timerIdClock) {
+      clearInterval(this.timerIdClock);
+    }
+
     document.removeEventListener('contextmenu', this.handleHide);
     document.removeEventListener('click', this.handleShow);
   }
