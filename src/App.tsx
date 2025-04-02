@@ -58,7 +58,7 @@ export class App extends React.Component<{}, State> {
   componentDidUpdate(prevState: Readonly<State>): void {
     if (prevState.clockName !== this.state.clockName) {
       // eslint-disable-next-line no-console
-      console.warn(
+      console.log(
         `Clock name changed from ${prevState.clockName} to ${this.state.clockName}`,
       );
     }
