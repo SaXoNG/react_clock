@@ -8,6 +8,15 @@ type Props = {
 type State = {};
 
 export class Clock extends React.Component<Props, State> {
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.clockName !== prevProps.clockName) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `Renamed from ${prevProps.clockName} to ${this.props.clockName}`,
+      );
+    }
+  }
+
   render(): React.ReactNode {
     const { today, clockName } = this.props;
 

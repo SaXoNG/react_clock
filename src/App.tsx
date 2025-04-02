@@ -19,8 +19,6 @@ export class App extends React.Component<{}, State> {
 
   private timerIdClock: number | undefined;
 
-  private timerIdLog: number | undefined;
-
   state = {
     hasClock: true,
     today: new Date(),
@@ -55,7 +53,6 @@ export class App extends React.Component<{}, State> {
 
     this.timerIdDate = window.setInterval(this.handleDate, 1000);
     this.timerIdClock = window.setInterval(this.handleClockId, 3300);
-    this.timerIdLog = window.setInterval(() => {}, 1000);
   }
 
   componentWillUnmount() {
@@ -68,17 +65,6 @@ export class App extends React.Component<{}, State> {
 
     if (this.timerIdClock) {
       clearInterval(this.timerIdClock);
-    }
-
-    if (this.timerIdLog) {
-      clearInterval(this.timerIdLog);
-    }
-  }
-
-  componentDidUpdate(prevState: Readonly<State>): void {
-    if (prevState.clockName !== this.state.clockName && this.state.hasClock) {
-      // eslint-disable-next-line no-console
-      console.log(this.state.today);
     }
   }
 
